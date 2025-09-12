@@ -1,6 +1,8 @@
 package com.example.lab_week_03
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +24,10 @@ class DetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-
+    private val coffeeTitle: TextView?
+        get() = view?.findViewById(R.id.coffee_title)
+    private val coffeeDesc: TextView?
+        get() = view?.findViewById(R.id.coffee_desc)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +45,17 @@ class DetailFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
-    private var coffeeTitle: TextView? = null
-    private var coffeeDesc: TextView? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Ambil referensi dari view fragment
-        coffeeTitle = view.findViewById(R.id.coffee_title)
-        coffeeDesc = view.findViewById(R.id.coffee_desc)
+        val coffeeId = arguments?.getInt(COFFEE_ID, 0) ?: 0
+        setCoffeeData(coffeeId)
+        Log.d(TAG, "onViewCreated")
     }
 
     fun setCoffeeData(id: Int) {
+        Log.d(TAG, "setCoffeeData")
         when (id) {
             R.id.affogato -> {
                 coffeeTitle?.text = getString(R.string.affogato_title)
@@ -86,6 +90,13 @@ class DetailFragment : Fragment() {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
+                }
+            }
+        private const val COFFEE_ID = "COFFEE_ID"
+        fun newInstance(coffeeId: Int) =
+            DetailFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(COFFEE_ID, coffeeId)
                 }
             }
     }
