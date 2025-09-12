@@ -8,7 +8,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat.enableEdgeToEdge
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+interface CoffeeListener {
+    fun onSelected(id: Int)
+}
+
+class MainActivity : AppCompatActivity(), CoffeeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,5 +46,10 @@ class MainActivity : AppCompatActivity() {
     }
     companion object {
         private const val TAG = "MainActivity"
+    }
+
+    override fun onSelected(id: Int){
+        val detailFragment = supportFragmentManager.findFragmentById(R.id.fragment_detail) as DetailFragment
+        detailFragment.setCoffeeData(id)
     }
 }
