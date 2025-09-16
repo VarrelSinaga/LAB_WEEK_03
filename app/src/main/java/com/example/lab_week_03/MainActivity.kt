@@ -23,5 +23,5 @@ class MainActivity : AppCompatActivity(){
             insets
         }
         Log.d(TAG, "onCreateMainActivity")
-            }
     }
+}
